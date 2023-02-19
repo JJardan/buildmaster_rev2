@@ -42,9 +42,9 @@ class _FeedScreenState extends State<FeedScreen> {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              pinned: false,
-              snap: true,
-              floating: true,
+              pinned: true,
+              snap: false,
+              floating: false,
               elevation: 0.5,
               centerTitle: false,
               toolbarHeight: 80,
@@ -227,6 +227,32 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
                 SizedBox(width: 28),
               ],
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                  return Card(
+                    margin: const EdgeInsets.all(0),
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 680,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            image: DecorationImage(
+                              image: AssetImage("images/test.jpg"),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned.fill(
+                            child: Align(alignment: Alignment.center, child: Text('hello')))
+                      ],
+                    ),
+                  );
+                },
+                childCount: 1, // 1000 list items
+              ),
             ),
             SliverToBoxAdapter(
               child: FutureBuilder(builder: (context, snapshot) {
