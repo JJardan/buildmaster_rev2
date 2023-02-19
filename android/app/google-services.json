@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "529066145890",
+    "project_id": "buildmaster-rev1",
+    "storage_bucket": "buildmaster-rev1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529066145890:android:77ae5ffec71f0f5e3ab93b",
+        "android_client_info": {
+          "package_name": "com.example.buildmaster_rev2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529066145890-e7l4l0tnbmmq7htgm42d0nltf58upa6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUmtcoiLRuyUwCc7B_RxSb-IJwK0x5K9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529066145890-e7l4l0tnbmmq7htgm42d0nltf58upa6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
