@@ -142,7 +142,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         borderRadius: BorderRadius.circular(18),
                       ),
                       onTap: (){
-                        Navigator.of(context).push(_detailRoute());
+                        Navigator.of(context).push(_authRoute());
                       },
                       child: SizedBox(
                           width: 36,

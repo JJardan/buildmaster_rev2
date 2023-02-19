@@ -10,8 +10,11 @@ import '../../../connection/model/user_model.dart';
 import '../../../connection/service/user_service.dart';
 import '../../main.dart';
 
+FirebaseAuth auth = FirebaseAuth.instance;
+get googleSignin => _googleSignIn;
+
 GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId: '368221199401-pmds9g9rplg1uqbtp231qcfcv58etbsn.apps.googleusercontent.com',
+  clientId: '529066145890-gk7p8nf0l5j0n9hrelsps7a102pgsilr.apps.googleusercontent.com',
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
@@ -38,7 +41,6 @@ class SignInGoogleState extends State<SignInGoogle> {
       });
       if (_currentUser != null) {
         _handleGetContact(_currentUser!);
-        Beamer.of(context).beamToNamed('/');
       }
     });
     _googleSignIn.signInSilently();
