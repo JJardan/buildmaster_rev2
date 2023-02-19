@@ -236,7 +236,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     child: Stack(
                       children: [
                         Container(
-                          height: 680,
+                          height: 540,
                           decoration: BoxDecoration(
                             color: Colors.black,
                             image: DecorationImage(
@@ -245,8 +245,60 @@ class _FeedScreenState extends State<FeedScreen> {
                             ),
                           ),
                         ),
+                        Container(
+                          height: 540,
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(0, 0, 0, 0.7),
+                          ),
+                        ),
                         Positioned.fill(
-                            child: Align(alignment: Alignment.center, child: Text('hello')))
+                            child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Explore the world’s best',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:(_size.width < 600)?24:36,
+                                          fontWeight: FontWeight.w700,
+                                          fontStyle: FontStyle.normal,
+                                  ),
+                                      ),
+                                      Text(
+                                        'construction manpower',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: (_size.width < 600)?24:36,
+                                          fontWeight: FontWeight.w700,
+                                          fontStyle: FontStyle.normal,
+                                        ),
+                                      ),
+                                      SizedBox(height: 16,),
+                                      Text(
+                                          'Millions of engineers and direct manpowers around the world career',
+                                        style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: (_size.width < 600)?12:16,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                      ),
+                                      SizedBox(height: 6,),
+                                      Text('we are the supplier, world`s best construction professionals.',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: (_size.width < 600)?12:16,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle: FontStyle.normal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )))
                       ],
                     ),
                   );
