@@ -65,6 +65,9 @@ class _GenerateCareerScreenState extends State<GenerateCareerScreen> {
         findWork: _suggestedPricesSelected,
         masterCareerVerified: false,
         uploadTime: DateTime.now().toUtc(),
+        ownerImageUrl: userProvider.userModel!.profileImageUrl,
+        ownerName: userProvider.userModel!.profileName,
+        checkCount: 0
     );
 
     await CareerService()

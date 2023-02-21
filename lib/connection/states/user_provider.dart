@@ -33,8 +33,7 @@ class UserProvider extends ChangeNotifier {
 
       if (UserService().getUserModel(user!.uid) != null)
         await _getUser(user);
-      else if (user == null && user.uid == null)
-        await _setNewUser(user);
+      else if (user == null && user.uid == null) await _setNewUser(user);
       notifyListeners();
     });
   }
@@ -48,6 +47,9 @@ class UserProvider extends ChangeNotifier {
         userKey: userKey,
         userEmail: userEmail,
         profileName: "builder",
+        profileImageUrl: "",
+        careers: [],
+        varifiedUserEmail: false,
         signupDate: DateTime.now().toUtc(),
       );
 
@@ -63,9 +65,8 @@ class UserProvider extends ChangeNotifier {
     logger.d(_userModel!.toJson());
   }
 
-
   /// SignInMethod
-  Future signInUser(_emailController, _passwordController,context) async {
+  Future signInUser(_emailController, _passwordController, context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
@@ -82,16 +83,15 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-
   /// SignUpMethod
-  Future signUpUser(_emailController, _passwordController, _passwordCheckController, context) async {
+  Future signUpUser(_emailController, _passwordController,
+      _passwordCheckController, context) async {
     if (true) {
       try {
-        UserCredential userCredential = await FirebaseAuth
-            .instance
+        UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-            email: _emailController.text,
-            password: _passwordController.text);
+                email: _emailController.text,
+                password: _passwordController.text);
         _emailController.clear();
         _passwordController.clear();
         _passwordCheckController.clear();
@@ -105,26 +105,25 @@ class UserProvider extends ChangeNotifier {
               signupDate: DateTime.now().toUtc(),
               userEmail: _emailController.text,
               userKey: FirebaseAuth.instance.currentUser!.uid,
-              profileName:
-              'unknown');
-          await UserService().createNewUser(userModel.toJson(),userModel.userKey);
+              profileName: 'builder',
+              profileImageUrl: "",
+              varifiedUserEmail: false,
+              careers: []);
+          await UserService()
+              .createNewUser(userModel.toJson(), userModel.userKey);
 
           logger.d(FirebaseAuth.instance.currentUser!.uid);
           Beamer.of(context).beamToNamed('/feed');
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'email-already-in-use')
-          SnackBar snackbar =
-          SnackBar(content: Text('이메일을 이미 사용중이에요'));
+          SnackBar snackbar = SnackBar(content: Text('이메일을 이미 사용중이에요'));
         else if (e.code == 'invalid-email')
-          SnackBar snackbar =
-          SnackBar(content: Text('확인되지 않는 이메일이에요'));
+          SnackBar snackbar = SnackBar(content: Text('확인되지 않는 이메일이에요'));
         else if (e.code == 'operation-not-allowed')
-          SnackBar snackbar =
-          SnackBar(content: Text('허용되지 않은 방식의 접근이에요'));
+          SnackBar snackbar = SnackBar(content: Text('허용되지 않은 방식의 접근이에요'));
         else if (e.code == 'weak-password')
-          SnackBar snackbar =
-          SnackBar(content: Text('패스워드가 약하군요?'));
+          SnackBar snackbar = SnackBar(content: Text('패스워드가 약하군요?'));
       }
     }
   }

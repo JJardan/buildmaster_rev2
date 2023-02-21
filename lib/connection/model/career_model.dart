@@ -17,6 +17,7 @@ class CareerModel {
   late String ownerName;
   late String ownerImageUrl;
   late DateTime uploadTime;
+  late int checkCount;
   DocumentReference? reference;
   CareerModel(
       {required this.careerKey,
@@ -32,6 +33,9 @@ class CareerModel {
       required this.findWork,
       required this.masterCareerVerified,
       required this.uploadTime,
+      required this.ownerName,
+      required this.ownerImageUrl,
+      required this.checkCount,
       this.reference});
 
   CareerModel.fromJson(dynamic json, this.careerKey, this.reference) {
@@ -45,10 +49,14 @@ class CareerModel {
     endDate = json[DOC_ENDDATE] ?? "";
     detailDescription = json[DOC_DETAILDESCRIPTION] ?? "";
     annualSalary = json[DOC_ANNUALSALARY] ?? 0;
+    findWork = json[DOC_FINDWORK] ?? false;
     masterCareerVerified = json[DOC_MASTERCAREERVERIFIED] ?? false;
-    uploadTime = (json['uploadTime'] == null)
+    uploadTime = (json[DOC_UPLOADTIME] == null)
         ? DateTime.now().toUtc()
-        : (json['uploadTime'] as Timestamp).toDate();
+        : (json[DOC_UPLOADTIME] as Timestamp).toDate();
+    ownerName = json[DOC_OWNERNAME]??"";
+    ownerImageUrl = json[DOC_OWNERIMAGEURL]??"";
+    checkCount = json[checkCount]??0;
     // tag = json['tag'] ?? "";
   }
 
@@ -64,10 +72,12 @@ class CareerModel {
     map[DOC_ENDDATE] = endDate;
     map[DOC_DETAILDESCRIPTION] = detailDescription;
     map[DOC_ANNUALSALARY] = annualSalary;
+    map[DOC_FINDWORK] = findWork;
     map[DOC_MASTERCAREERVERIFIED] = masterCareerVerified;
     map[DOC_OWNERNAME] = ownerName;
     map[DOC_OWNERIMAGEURL] = ownerImageUrl;
     map[DOC_UPLOADTIME] = uploadTime;
+    map[DOC_CHECKCOUNT] = checkCount;
     return map;
   }
 

@@ -9,12 +9,15 @@ class UserModel {
   late DateTime signupDate;
   late String profileName;
   late String profileImageUrl;
-  late CareerModel careers;
+  late List<CareerModel> careers;
   DocumentReference? reference;
   UserModel({
     required this.userKey,
     required this.userEmail,
+    required this.varifiedUserEmail,
     required this.profileName,
+    required this.profileImageUrl,
+    required this.careers,
     required this.signupDate,
     this.reference
   });
@@ -26,7 +29,7 @@ class UserModel {
         : (json[DOC_SIGNUPDATE] as Timestamp).toDate();
     profileName = json[DOC_PROFILENAME];
     profileImageUrl = json[DOC_PROFILEIMAGEURL]??"";
-    careers = json[DOC_CAREERS]??"";
+    careers = json[DOC_CAREERS]??[];
     varifiedUserEmail = json[DOC_VARIFIEDUSEREMAIL]??false;
   }
 

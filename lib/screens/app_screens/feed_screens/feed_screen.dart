@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -6,7 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../../connection/model/user_model.dart';
+import '../../../connection/service/user_service.dart';
 import '../../../connection/states/user_provider.dart';
+import '../../../main.dart';
 import '../../../theme/button_theme/text_button.dart';
 import '../../auth_screens/sign_in_google.dart';
 import '../profile_screens/career_screens/generate_career_screen.dart';
@@ -197,7 +201,20 @@ class _FeedScreenState extends State<FeedScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 0),
                   child: TextButton(
-                    onPressed: () {Navigator.of(context).push(_authRoute());},
+                    onPressed: () async{await BuildMasterState().handleSignIn();
+                    if (googleSignin.currentUser != null) {
+                      UserModel userModel = UserModel(
+                        userEmail: googleSignin.currentUser!.email,
+                        profileName: 'unknown',
+                        profileImageUrl: "",
+                        varifiedUserEmail: false,
+                        careers: [],
+                        signupDate: DateTime.now().toUtc(),
+                        userKey: googleSignin.currentUser!.id,
+                      );
+                      UserService().createNewUser(userModel.toJson(), userModel.userKey);
+                      Beamer.of(context).beamToNamed('/');
+                    }},
                     style: ButtonStyle(
                       minimumSize: MaterialStateProperty.all(Size.zero),
                       padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0)),

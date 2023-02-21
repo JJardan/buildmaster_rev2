@@ -24,10 +24,12 @@ const DOC_BEGINDATE = "beginDate";
 const DOC_ENDDATE = "endDate";
 const DOC_DETAILDESCRIPTION = "detailDescription";
 const DOC_ANNUALSALARY = "annualSalary";
+const DOC_FINDWORK = "findWork";
 const DOC_MASTERCAREERVERIFIED = "masterCareerVerified";
 const DOC_OWNERNAME = "ownerName";
 const DOC_OWNERIMAGEURL = "ownerImageUrl";
 const DOC_UPLOADTIME = "uploadTime";
+const DOC_CHECKCOUNT = "checkCount";
 
 /// Location
 const LOCATION_AUTH = 'auth';
@@ -39,3 +41,4 @@ const LOCATION_ITEM = 'item';
 const LOCATION_CHAT = 'chat';
 const LOCATION_CHATROOM_ID = 'chatroom_id';
 const LOCATION_ITEM_ID = 'item_id';
+const LOCATION_CAREER = 'career';

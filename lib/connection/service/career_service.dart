@@ -23,9 +23,9 @@ class CareerService {
     }
   }
 
-  Future<CareerModel> getCareer(String productKey) async {
+  Future<CareerModel> getCareer(String careerKey) async {
     DocumentReference<Map<String, dynamic>> documentReference =
-    FirebaseFirestore.instance.collection(COL_CAREERS).doc(productKey);
+    FirebaseFirestore.instance.collection(COL_CAREERS).doc(careerKey);
     final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
     await documentReference.get();
     CareerModel careerModel = CareerModel.fromSnapshot(documentSnapshot);

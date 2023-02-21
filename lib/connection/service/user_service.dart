@@ -5,7 +5,6 @@ import '../model/user_model.dart';
 class UserService {
   static final UserService _userService = UserService._internal();
   factory UserService() => _userService;
-
   UserService._internal();
 
   Future createNewUser(Map<String, dynamic> json, String userKey) async {
