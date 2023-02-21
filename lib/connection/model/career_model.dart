@@ -12,19 +12,25 @@ class CareerModel {
   late DateTime endDate;
   late String detailDescription;
   late num annualSalary;
+  late bool findWork;
   late bool masterCareerVerified;
   late String ownerName;
   late String ownerImageUrl;
   late DateTime uploadTime;
   DocumentReference? reference;
   CareerModel(
-      {
-      required this.careerKey,
+      {required this.careerKey,
       required this.ownerKey,
       required this.departmentCategory,
       required this.positionCategory,
+      required this.positionDetail,
+      required this.companyDescription,
       required this.beginDate,
       required this.endDate,
+      required this.detailDescription,
+      required this.annualSalary,
+      required this.findWork,
+      required this.masterCareerVerified,
       required this.uploadTime,
       this.reference});
 
@@ -39,7 +45,7 @@ class CareerModel {
     endDate = json[DOC_ENDDATE] ?? "";
     detailDescription = json[DOC_DETAILDESCRIPTION] ?? "";
     annualSalary = json[DOC_ANNUALSALARY] ?? 0;
-    masterCareerVerified = json[DOC_MASTERCAREERVERIFIED]??false;
+    masterCareerVerified = json[DOC_MASTERCAREERVERIFIED] ?? false;
     uploadTime = (json['uploadTime'] == null)
         ? DateTime.now().toUtc()
         : (json['uploadTime'] as Timestamp).toDate();
@@ -66,8 +72,21 @@ class CareerModel {
   }
 
   CareerModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
-      : this.fromJson(snapshot.data()!, snapshot.id ,snapshot.reference);
+      : this.fromJson(snapshot.data()!, snapshot.id, snapshot.reference);
   CareerModel.fromQuerySnapshot(
       QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : this.fromJson(snapshot.data(), snapshot.id, snapshot.reference);
+
+  Map<String, dynamic> toMinJson() {
+    final map = <String, dynamic>{};
+    map[DOC_DEPARTMENTCATEGORY] = departmentCategory;
+    map[DOC_POSITIONCATEGORY] = positionCategory;
+    map[DOC_POSITIONDETAIL] = positionDetail;
+    return map;
+  }
+
+  static String generateCareerKey(String uid){
+    String timeInMilli = DateTime.now().millisecondsSinceEpoch.toString();
+    return '${uid}_$timeInMilli';
+  }
 }

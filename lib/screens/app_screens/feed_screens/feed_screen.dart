@@ -9,6 +9,7 @@ import 'package:transparent_image/transparent_image.dart';
 import '../../../connection/states/user_provider.dart';
 import '../../../theme/button_theme/text_button.dart';
 import '../../auth_screens/sign_in_google.dart';
+import '../profile_screens/career_screens/generate_career_screen.dart';
 import 'feed_detail_screen.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _FeedScreenState extends State<FeedScreen> {
     'https://cdn.pixabay.com/photo/2019/03/15/09/49/girl-4056684_960_720.jpg',
     'https://cdn.pixabay.com/photo/2020/09/18/19/31/laptop-5582775_960_720.jpg',
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +162,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 0),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {Navigator.of(context).push(_uploadRoute());},
                     style: ButtonStyle(
                       minimumSize: MaterialStateProperty.all(Size.zero),
                       padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0)),
@@ -605,6 +607,28 @@ class _FeedScreenState extends State<FeedScreen> {
           var curve = Curves.easeInOut;
           var tween =
               Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        });
+  }
+
+
+  Route _uploadRoute() {
+    return PageRouteBuilder(
+        barrierColor: Colors.black,
+        transitionDuration: Duration(milliseconds: 300),
+        reverseTransitionDuration: Duration(milliseconds: 300),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            GenerateCareerScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0, 1);
+          var end = Offset.zero;
+          var curve = Curves.easeInOut;
+          var tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
           return SlideTransition(
             position: offsetAnimation,

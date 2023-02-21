@@ -21,12 +21,14 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
+
 class SignInGoogle extends StatefulWidget {
   const SignInGoogle({Key? key}) : super(key: key);
 
   @override
   State createState() => SignInGoogleState();
 }
+
 
 class SignInGoogleState extends State<SignInGoogle> {
   GoogleSignInAccount? _currentUser;

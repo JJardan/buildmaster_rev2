@@ -3,13 +3,23 @@ import '../../constants/data_keys.dart';
 import '../model/career_model.dart';
 
 class CareerService {
-  Future uploadNewCareer(CareerModel careerModel, String careerKey) async {
-    DocumentReference<Map<String, dynamic>> productDocReference =
+  Future uploadNewCareer(CareerModel careerModel, String careerKey, String userKey) async {
+    DocumentReference<Map<String, dynamic>> careerDocReference =
     FirebaseFirestore.instance.collection(COL_CAREERS).doc(careerKey);
-    final DocumentSnapshot documentSnapshot = await productDocReference.get();
+    DocumentReference<Map<String, dynamic>> userCareerDocReference =
+    FirebaseFirestore.instance
+        .collection(COL_USERS)
+        .doc(userKey)
+        .collection(COL_USERS_CAREERS)
+        .doc(careerKey);
+    final DocumentSnapshot documentSnapshot = await careerDocReference.get();
 
     if (!documentSnapshot.exists) {
-      await productDocReference.set(careerModel.toJson());
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        transaction.set(careerDocReference, careerModel.toJson());
+        transaction.set(userCareerDocReference, careerModel.toMinJson());
+      });
+      await careerDocReference.set(careerModel.toJson());
     }
   }
 

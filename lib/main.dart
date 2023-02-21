@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:buildmaster_rev2/connection/states/departmentCategoryProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,6 +53,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<ShimmerProvider>(
           create: (BuildContext context) {
             return ShimmerProvider();
+          },
+        ),
+        ChangeNotifierProvider<DepartmentCategoryProvider>(
+          create: (BuildContext context) {
+            return DepartmentCategoryProvider();
           },
         ),
         // ChangeNotifierProvider<FormProvider>(

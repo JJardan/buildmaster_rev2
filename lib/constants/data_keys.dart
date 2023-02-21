@@ -1,5 +1,6 @@
 /// firebase collection
 const COL_USERS = "user";
+const COL_USERS_CAREERS = "userCareers";
 const COL_CAREERS = "career";
 
 /// user model
