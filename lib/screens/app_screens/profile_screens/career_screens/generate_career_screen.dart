@@ -1,4 +1,3 @@
-import 'package:beamer/src/beamer.dart';
 import 'package:buildmaster_rev2/connection/service/career_service.dart';
 import 'package:buildmaster_rev2/connection/states/departmentCategoryProvider.dart';
 import 'package:buildmaster_rev2/theme/basicTheme.dart';
@@ -74,8 +73,6 @@ class _GenerateCareerScreenState extends State<GenerateCareerScreen> {
 
     await CareerService()
         .uploadNewCareer(careerModel, itemKey, userProvider.user!.uid);
-
-    context.beamBack();
   }
 
   @override
@@ -94,7 +91,6 @@ class _GenerateCareerScreenState extends State<GenerateCareerScreen> {
                     const EdgeInsets.symmetric(vertical: 22.0, horizontal: 10),
                 child: TextButton(
                   onPressed: () {
-                    context.beamBack();
                   },
                   style: ButtonStyle(
                     minimumSize: MaterialStateProperty.all(Size.zero),

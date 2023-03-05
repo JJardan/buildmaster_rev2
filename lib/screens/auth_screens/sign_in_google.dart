@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert' show json;
-import 'package:beamer/beamer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -68,7 +67,6 @@ class SignInGoogleState extends State<SignInGoogle> {
                   userKey: googleSignin.currentUser!.id,
                 );
                 UserService().createNewUser(userModel.toJson(), userModel.userKey);
-                Beamer.of(context).beamToNamed('/');
               }
             },
             child: const Text('SIGN IN'),

@@ -57,7 +57,6 @@ dependencies:
 
   # for Develop
 
-  beamer: ^1.5.2
   http: ^0.13.5
   logger: ^1.1.0
   provider: ^6.0.3

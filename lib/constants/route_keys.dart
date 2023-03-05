@@ -1,6 +1,6 @@
 /// route_keys
 const LOCATION_AUTH = 'auth';
-const LOCATION_HOME = 'Buildmaster | Find Your Co-workers';
+const LOCATION_HOME = 'Buildmaster';
 const LOCATION_SEARCH = 'search';
 const LOCATION_INPUT = 'input';
 const LOCATION_CATEGORY_INPUT = 'category_input';
@@ -9,6 +9,7 @@ const LOCATION_CHAT = 'chat';
 const LOCATION_CHATROOM_ID = 'chatroom_id';
 const LOCATION_ITEM_ID = 'item_id';
 
+const LOCATION_AD = 'Buildmaster | Find Your Co-workers';
 
 /// profile location
 

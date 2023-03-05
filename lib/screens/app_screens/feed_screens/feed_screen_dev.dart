@@ -1,4 +1,3 @@
-import 'package:beamer/beamer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:buildmaster_rev2/connection/model/career_model.dart';
@@ -240,7 +239,6 @@ class _FeedScreenState extends State<FeedScreen> {
                               );
                               UserService().createNewUser(
                                   userModel.toJson(), userModel.userKey);
-                              Beamer.of(context).beamToNamed('/');
                             }
                           },
                           style: ButtonStyle(

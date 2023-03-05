@@ -1,14 +1,13 @@
-import 'package:beamer/beamer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
 
 import '../../firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
 import '../service/user_service.dart';
+import '../../main.dart';
 
 class UserProvider extends ChangeNotifier {
   User? _user;
@@ -73,7 +72,6 @@ class UserProvider extends ChangeNotifier {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
-      Beamer.of(context).beamToNamed('/feed');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email')
         SnackBar snackbar = SnackBar(content: Text('이메일 확인이 안되었어요'));
@@ -119,7 +117,6 @@ class UserProvider extends ChangeNotifier {
               .createNewUser(userModel.toJson(), userModel.userKey);
 
           logger.d(FirebaseAuth.instance.currentUser!.uid);
-          Beamer.of(context).beamToNamed('/feed');
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'email-already-in-use')

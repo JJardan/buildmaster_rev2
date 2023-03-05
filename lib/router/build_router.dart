@@ -1,3 +1,4 @@
+import '../screens/app_screens/feed_screens/feed_detail_screen.dart';
 import '../screens/app_screens/feed_screens/feed_screen.dart';
 import '../screens/app_screens/profile_screens/career_screens/generate_career_screen.dart';
 import '../screens/app_screens/profile_screens/personal_info.dart';
@@ -24,6 +25,12 @@ class BuildRouter {
     },
     routes: [
       GoRoute(
+          path: '/ad',
+          name: LOCATION_AD,
+          builder: (context, state) {
+            return const SignInGoogle();
+          }),
+      GoRoute(
           path: '/login',
           name: 'loginPage',
           builder: (context, state) {
@@ -31,31 +38,40 @@ class BuildRouter {
           }),
       GoRoute(
           path: '/',
-          name: 'feedPage',
+          name: LOCATION_HOME,
           builder: (context, state) {
             return const FeedScreen();
-          }),
+          },
+        // routes: [
+        //   GoRoute(
+        //       path: 'detail/:userid/:careerid',
+        //       name: LOCATION_PERSONAL,
+        //       builder: (context, state) =>
+        //         FeedDetailScreen()
+        //   ),
+        // ],
+      ),
       GoRoute(
           path: '/profile',
-          name: 'profile',
+          name: LOCATION_PROFILE,
           builder: (context, state) {
             return ProfileScreen();
           },
           routes:[
             GoRoute(
-              path: '/personal',
+              path: 'personal',
               name: LOCATION_PERSONAL,
               builder: (context, state) {
                 return PersonalInfo();
               }),
             GoRoute(
-                path: '/career',
+                path: 'career',
                 name: LOCATION_CAREER,
                 builder: (context, state) {
                   return CareerScreen();
                 }),
             GoRoute(
-                path: '/addcareer',
+                path: 'addcareer',
                 name: LOCATION_ADD_CAREER,
                 builder: (context, state) {
                   return GenerateCareerScreen();
@@ -70,13 +86,13 @@ class BuildRouter {
         },
         routes:[
           GoRoute(
-              path: '/copyright',
+              path: 'copyright',
               name: LOCATION_COMPANY_COPYRIGHT,
               builder: (context, state) {
                 return Copyright();
               }),
           GoRoute(
-              path: '/termconditions',
+              path: 'termconditions',
               name: LOCATION_COMPANY_TERMCONDITIONS,
               builder: (context, state) {
                 return TermConditions();
@@ -88,8 +104,8 @@ class BuildRouter {
       final loggedIn = loginState.user;
       final inAuthPage = state.subloc.contains('loginPage');
 
-      if(inAuthPage && loggedIn!=null) return '/';
-      if(!inAuthPage && loggedIn==null) return '/login';
+      // if(inAuthPage && loggedIn!=null) return '/';
+      // if(!inAuthPage && loggedIn==null) return '/';
 
     },
     refreshListenable: loginState,

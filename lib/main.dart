@@ -1,4 +1,3 @@
-import 'package:beamer/beamer.dart';
 import 'package:buildmaster_rev2/connection/states/departmentCategoryProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,7 +11,6 @@ import 'package:logger/logger.dart';
 import 'connection/states/shimmer_provider.dart';
 import 'connection/states/user_provider.dart';
 import 'firebase_options.dart';
-import 'router/locations.dart';
 import 'router/build_router.dart';
 import 'screens/auth_screens/error_screen.dart';
 import 'screens/auth_screens/splash_screen.dart';
@@ -43,12 +41,12 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
 
-  final UserProvider loginState;
-  MyApp({super.key, required this.loginState});
-
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final UserProvider loginState;
+  MyApp({super.key, required this.loginState});
 
   @override
   Widget build(BuildContext context) {

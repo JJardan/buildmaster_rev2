@@ -1,4 +1,4 @@
-import 'package:beamer/beamer.dart';
+import 'package:buildmaster_rev2/constants/route_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -61,7 +61,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   SizedBox(width: 18),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(_detailRoute());
+                      context.goNamed(LOCATION_ADD_CAREER);
                     },
                     child: SizedBox(
                       height: 32,
@@ -174,7 +174,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             vertical: 22.0, horizontal: 0),
                         child: TextButton(
                           onPressed: () {
-                            context.pushNamed('createcareer');
+                            context.goNamed(LOCATION_ADD_CAREER, params: {});
                           },
                           style: ButtonStyle(
                             minimumSize: MaterialStateProperty.all(Size.zero),
