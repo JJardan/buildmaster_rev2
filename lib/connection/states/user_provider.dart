@@ -46,10 +46,13 @@ class UserProvider extends ChangeNotifier {
       UserModel userModel = UserModel(
         userKey: userKey,
         userEmail: userEmail,
-        profileName: "builder",
+        profileName: 'builder',
         profileImageUrl: "",
+        profileNationality: 'global',
         careers: [],
         varifiedUserEmail: false,
+        workingAbroad: false,
+        findWork: false,
         signupDate: DateTime.now().toUtc(),
       );
 
@@ -107,7 +110,10 @@ class UserProvider extends ChangeNotifier {
               userKey: FirebaseAuth.instance.currentUser!.uid,
               profileName: 'builder',
               profileImageUrl: "",
+              profileNationality: 'global',
               varifiedUserEmail: false,
+              workingAbroad: false,
+              findWork: false,
               careers: []);
           await UserService()
               .createNewUser(userModel.toJson(), userModel.userKey);

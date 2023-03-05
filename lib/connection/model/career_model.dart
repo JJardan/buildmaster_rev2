@@ -12,10 +12,11 @@ class CareerModel {
   late DateTime endDate;
   late String detailDescription;
   late num annualSalary;
-  late bool findWork;
   late bool masterCareerVerified;
   late String ownerName;
   late String ownerImageUrl;
+  late String ownerNationality;
+  late bool ownerFindWork;
   late DateTime uploadTime;
   late int checkCount;
   DocumentReference? reference;
@@ -30,11 +31,12 @@ class CareerModel {
       required this.endDate,
       required this.detailDescription,
       required this.annualSalary,
-      required this.findWork,
       required this.masterCareerVerified,
       required this.uploadTime,
       required this.ownerName,
       required this.ownerImageUrl,
+      required this.ownerNationality,
+      required this.ownerFindWork,
       required this.checkCount,
       this.reference});
 
@@ -49,13 +51,14 @@ class CareerModel {
     endDate = json[DOC_ENDDATE] ?? "";
     detailDescription = json[DOC_DETAILDESCRIPTION] ?? "";
     annualSalary = json[DOC_ANNUALSALARY] ?? 0;
-    findWork = json[DOC_FINDWORK] ?? false;
     masterCareerVerified = json[DOC_MASTERCAREERVERIFIED] ?? false;
     uploadTime = (json[DOC_UPLOADTIME] == null)
         ? DateTime.now().toUtc()
         : (json[DOC_UPLOADTIME] as Timestamp).toDate();
     ownerName = json[DOC_OWNERNAME]??"";
+    ownerFindWork = json[DOC_OWNERFINDWORK] ?? false;
     ownerImageUrl = json[DOC_OWNERIMAGEURL]??"";
+    ownerNationality = json[DOC_OWNERNATIONALITY]??"";
     checkCount = json[checkCount]??0;
     // tag = json['tag'] ?? "";
   }
@@ -72,10 +75,11 @@ class CareerModel {
     map[DOC_ENDDATE] = endDate;
     map[DOC_DETAILDESCRIPTION] = detailDescription;
     map[DOC_ANNUALSALARY] = annualSalary;
-    map[DOC_FINDWORK] = findWork;
+    map[DOC_OWNERFINDWORK] = ownerFindWork;
     map[DOC_MASTERCAREERVERIFIED] = masterCareerVerified;
     map[DOC_OWNERNAME] = ownerName;
     map[DOC_OWNERIMAGEURL] = ownerImageUrl;
+    map[DOC_OWNERNATIONALITY] = ownerNationality;
     map[DOC_UPLOADTIME] = uploadTime;
     map[DOC_CHECKCOUNT] = checkCount;
     return map;

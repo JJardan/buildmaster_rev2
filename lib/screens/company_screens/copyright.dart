@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CareerScreen extends StatelessWidget {
-  const CareerScreen({Key? key}) : super(key: key);
+class Copyright extends StatelessWidget {
+  const Copyright({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

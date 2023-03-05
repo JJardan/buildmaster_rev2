@@ -1,16 +1,21 @@
 import 'package:beamer/beamer.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:buildmaster_rev2/connection/model/career_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:go_router/go_router.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../../connection/model/user_model.dart';
+import '../../../connection/service/career_service.dart';
 import '../../../connection/service/user_service.dart';
 import '../../../connection/states/user_provider.dart';
+import '../../../constants/data_keys.dart';
+import '../../../constants/route_keys.dart';
 import '../../../main.dart';
 import '../../../theme/button_theme/text_button.dart';
 import '../../auth_screens/sign_in_google.dart';
@@ -118,6 +123,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             vertical: 22.0, horizontal: 0),
                         child: InkWell(
                           onTap: () {
+                            Navigator.of(context).push(_detailRoute());
                           },
                           child: SizedBox(
                             height: 24,
@@ -155,6 +161,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               borderRadius: BorderRadius.circular(18),
                             ),
                             onTap: () {
+                              Navigator.of(context).push(_authRoute());
                             },
                             child: SizedBox(
                               width: 36,
@@ -174,7 +181,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             vertical: 22.0, horizontal: 0),
                         child: TextButton(
                           onPressed: () {
-                            context.pushNamed('createcareer');
+                            Navigator.of(context).push(_uploadRoute());
                           },
                           style: ButtonStyle(
                             minimumSize: MaterialStateProperty.all(Size.zero),
@@ -233,6 +240,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               );
                               UserService().createNewUser(
                                   userModel.toJson(), userModel.userKey);
+                              Beamer.of(context).beamToNamed('/');
                             }
                           },
                           style: ButtonStyle(
@@ -360,13 +368,15 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: FutureBuilder(builder: (context, snapshot) {
-                return AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    child: (snapshot.hasData)
-                        ? sliverList()
-                        : sliverList()); //_shimmerListView()
-              }),
+              child: FutureBuilder(
+                  future: CareerService().getAllCareers(),
+                  builder: (context, snapshot) {
+                    return AnimatedSwitcher(
+                        duration: Duration(milliseconds: 300),
+                        child: (snapshot.hasData && snapshot.data!.isNotEmpty)
+                            ? sliverList(snapshot.data!)
+                            : sliverList(snapshot.data!)); //_shimmerListView()
+                  }),
             ),
           ],
         ),
@@ -399,7 +409,7 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  Padding sliverList() {
+  Padding sliverList(List<CareerModel> careers) {
     Size _size = MediaQuery.of(context).size;
     return Padding(
         padding: (_size.width <= 800)
@@ -413,6 +423,7 @@ class _FeedScreenState extends State<FeedScreen> {
           crossAxisSpacing: 24,
           itemCount: imageList.length,
           itemBuilder: (context, index) {
+            CareerModel career = careers[index];
             return ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Card(
@@ -425,12 +436,33 @@ class _FeedScreenState extends State<FeedScreen> {
                   child: LayoutBuilder(
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
+                      final now = DateTime.now();
+                      final difference = now.difference(career.uploadTime);
+
+                      String formattedUploadTime;
+
+                      if (difference.inDays == 1) {
+                        formattedUploadTime = 'Yesterday';
+                      } else if (difference.inDays > 1) {
+                        final formatter = DateFormat('MMM d, yyyy');
+                        formattedUploadTime =
+                            formatter.format(career.uploadTime);
+                      } else if (difference.inHours >= 1) {
+                        formattedUploadTime = '${difference.inHours} hours ago';
+                      } else if (difference.inMinutes >= 1) {
+                        formattedUploadTime =
+                            '${difference.inMinutes} minutes ago';
+                      } else {
+                        formattedUploadTime = 'Just now';
+                      }
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).push(_detailRoute());
+                              context.goNamed(
+                                  '/$LOCATION_CAREER/:${career.careerKey}');
                             },
                             child: Padding(
                                 padding: const EdgeInsets.only(
@@ -485,7 +517,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   padding:
                                                       const EdgeInsets.all(4.0),
                                                   child: Text(
-                                                    'Mechanical',
+                                                    career.departmentCategory,
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12),
@@ -494,28 +526,6 @@ class _FeedScreenState extends State<FeedScreen> {
                                               ),
                                             ),
                                             Expanded(child: SizedBox()),
-                                            Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.check_circle,
-                                                    color: Colors.black,
-                                                    size: 12,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 2,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Text(
-                                                      '112',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
                                             SizedBox(
                                               height: 32,
                                               width: 32,
@@ -574,7 +584,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              'Static Equipment Supervisior',
+                                              career.positionCategory,
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12),
@@ -586,7 +596,19 @@ class _FeedScreenState extends State<FeedScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              'JGC',
+                                              career.positionDetail,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              career.companyDescription,
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12),
@@ -598,7 +620,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              '6 years',
+                                              career.endDate
+                                                  .difference(career.beginDate)
+                                                  .inDays as String,
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 12),
@@ -613,10 +637,25 @@ class _FeedScreenState extends State<FeedScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              'ajsklfajfklasjflaksjfalksjfaslkfjaslkdfjaslkdfjsalkfjaslkfjaskldfjaslkdjfalksjflaksjflkasdfklasjfklasjdflk',
+                                              career.detailDescription,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 12),
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              formattedUploadTime,
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 10),
                                             ),
                                           ),
                                         ),
@@ -637,39 +676,92 @@ class _FeedScreenState extends State<FeedScreen> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
                                       child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: Container(color: Colors.blue)
-                                          // child: FadeInImage.memoryNetwork(
-                                          //   placeholder: kTransparentImage,
-                                          //   image: imageList[index],
-                                          //   fit: BoxFit.scaleDown,
-                                          // ),
-                                          ),
+                                        width: 20,
+                                        height: 20,
+                                        child: FadeInImage.memoryNetwork(
+                                          placeholder: kTransparentImage,
+                                          image: career.ownerImageUrl,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 6,
                                     ),
-                                    Flexible(
-                                      fit: FlexFit.loose,
+                                    SizedBox(
                                       child: Text(
-                                        'Taehun_Jin',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                        career.ownerName,
                                         style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.normal,
                                             color: Colors.black,
                                             fontSize: 12),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 6,
+                                      width: 2,
                                     ),
-                                    BlackLabelButton(),
                                     SizedBox(
-                                      width: 4,
+                                      child: Text(
+                                        career.ownerNationality,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 10),
+                                      ),
                                     ),
-                                    FindWorkButton(),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    SizedBox(
+                                      child: Text(
+                                        career.ownerFindWork as String,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      fit: FlexFit.tight,
+                                      child: Text(
+                                        career.annualSalary as String,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                    career.masterCareerVerified == true
+                                        ? BlackLabelButton()
+                                        : SizedBox(),
+                                    career.ownerFindWork == true
+                                        ? FindWorkButton()
+                                        : SizedBox(),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: Colors.black,
+                                          size: 12,
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        SizedBox(
+                                          child: Text(
+                                            career.checkCount as String,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ]),
                             ),
                           ),

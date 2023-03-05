@@ -9,6 +9,9 @@ class UserModel {
   late DateTime signupDate;
   late String profileName;
   late String profileImageUrl;
+  late String profileNationality;
+  late bool findWork;
+  late bool workingAbroad;
   late List<CareerModel> careers;
   DocumentReference? reference;
   UserModel({
@@ -17,6 +20,9 @@ class UserModel {
     required this.varifiedUserEmail,
     required this.profileName,
     required this.profileImageUrl,
+    required this.profileNationality,
+    required this.findWork,
+    required this.workingAbroad,
     required this.careers,
     required this.signupDate,
     this.reference
@@ -29,8 +35,11 @@ class UserModel {
         : (json[DOC_SIGNUPDATE] as Timestamp).toDate();
     profileName = json[DOC_PROFILENAME];
     profileImageUrl = json[DOC_PROFILEIMAGEURL]??"";
+    profileNationality = json[DOC_PROFILENATIONALITY]??"";
     careers = json[DOC_CAREERS]??[];
     varifiedUserEmail = json[DOC_VARIFIEDUSEREMAIL]??false;
+    findWork = json[DOC_FINDWORK]??false;
+    workingAbroad = json[DOC_WORKINGABROAD]??false;
   }
 
   Map<String, dynamic> toJson() {
@@ -39,8 +48,11 @@ class UserModel {
     map[DOC_SIGNUPDATE] = signupDate;
     map[DOC_PROFILENAME] = profileName;
     map[DOC_PROFILEIMAGEURL] = profileImageUrl;
+    map[DOC_PROFILENATIONALITY] = profileNationality;
+    map[DOC_FINDWORK] = findWork;
     map[DOC_CAREERS] = careers;
     map[DOC_VARIFIEDUSEREMAIL] = varifiedUserEmail;
+    map[DOC_WORKINGABROAD] = workingAbroad;
     return map;
   }
 

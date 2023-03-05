@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+
+//ignore: must_be_immutable
 class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({Key? key}) : super(key: key);
+  final Exception? error;
+  late String message;
+
+  ErrorScreen({Key? key, this.error}) : super(key: key) {
+    if (error != null) {
+      message = error.toString();
+    } else {
+      message = 'Error';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.green,),
-
-      ),
-    );
+    return Scaffold(body: Center(child: Text(message)));
   }
 }

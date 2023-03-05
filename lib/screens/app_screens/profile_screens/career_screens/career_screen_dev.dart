@@ -1,11 +1,13 @@
 import 'package:beamer/src/beamer.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../connection/model/career_model.dart';
 import '../../../../connection/service/career_service.dart';
 import '../../../../constants/data_keys.dart';
+import '../../../../constants/route_keys.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class _FeedPageState extends State<FeedPage> {
         CareerModel item = items[index];
         return InkWell(
           onTap: (){
-            context.beamToNamed('/$LOCATION_CAREER/:${item.careerKey}');
+            context.goNamed('/$LOCATION_CAREER/:${item.careerKey}');
           },
           child: SizedBox(
             height: imgSize,

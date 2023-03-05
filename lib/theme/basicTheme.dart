@@ -29,7 +29,7 @@ ThemeData basicThemeData(BuildContext context) {
         backgroundColor: Colors.white,
         centerTitle: false,
         foregroundColor: Colors.black,
-        elevation: 0.5),
+        elevation: 0),
 
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         elevation: 5,

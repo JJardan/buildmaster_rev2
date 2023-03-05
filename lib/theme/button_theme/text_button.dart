@@ -16,7 +16,7 @@ class BlackLabelButton extends StatelessWidget {
           elevation: MaterialStateProperty.all<double>(0),
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.hovered)) {
-              return Colors.blue;
+              return Colors.black87;
             } else {
               return Colors.black;
             }
@@ -30,7 +30,48 @@ class BlackLabelButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Text(
-            'master',
+            'Master',
+            style: TextStyle(
+                color: Colors.white, fontSize: 10),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class FindWorkButton extends StatelessWidget {
+  const FindWorkButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: TextButton(
+        onPressed: () {},
+        style: ButtonStyle(
+          minimumSize: MaterialStateProperty.all(Size.zero),
+          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0)),
+          elevation: MaterialStateProperty.all<double>(0),
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.hovered)) {
+              return Colors.blue;
+            } else {
+              return Colors.blueAccent;
+            }
+          }),
+          tapTargetSize:
+          MaterialTapTargetSize.shrinkWrap,
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.0),
+                  side: BorderSide(color: Colors.transparent))),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Text(
+            'Find Work',
             style: TextStyle(
                 color: Colors.white, fontSize: 10),
           ),

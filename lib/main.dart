@@ -13,6 +13,7 @@ import 'connection/states/shimmer_provider.dart';
 import 'connection/states/user_provider.dart';
 import 'firebase_options.dart';
 import 'router/locations.dart';
+import 'router/build_router.dart';
 import 'screens/auth_screens/error_screen.dart';
 import 'screens/auth_screens/splash_screen.dart';
 import 'theme/basicTheme.dart';
@@ -33,18 +34,18 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Provider.debugCheckInvalidValueType = null;
+  final state = UserProvider();
+  state.initUser();
   logger.d('let`s go buildmaster');
-  runApp(const MyApp());
+
+  runApp(MyApp(loginState: state));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+  final UserProvider loginState;
+  MyApp({super.key, required this.loginState});
 
-class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -75,6 +76,10 @@ class _MyAppState extends State<MyApp> {
             return DepartmentCategoryProvider();
           },
         ),
+        Provider<BuildRouter>(
+          lazy: false,
+          create: (context) => BuildRouter(loginState),
+        )
       ],
       child: FutureBuilder(
         future: _initialization,
@@ -209,32 +214,14 @@ class BuildMasterState extends State<BuildMaster> {
 
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
-
   Widget build(BuildContext context) {
+    final router = Provider.of<BuildRouter>(context,listen: false).router;
     return MaterialApp.router(
       title: 'Buildmaster - Find Your Co-workers',
       theme: basicThemeData(context),
-      routeInformationParser: BeamerParser(),
-      routerDelegate: _routerDelegate,
-      backButtonDispatcher:
-      BeamerBackButtonDispatcher(delegate: _routerDelegate),
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }
-
-final _routerDelegate = BeamerDelegate(
-    guards: [
-      BeamGuard(
-          pathPatterns: ['/'],
-          guardNonMatching: true,
-          check: (context, location) {
-            return Provider.of<UserProvider>(context, listen: false).user !=
-                null;
-          },
-          beamToNamed: (origin, target) => '/')
-    ],
-    locationBuilder: BeamerLocationBuilder(beamLocations: [
-      FeedLocation(),
-      AuthLocation(),
-      // ProfileLocation(),
-    ]));
